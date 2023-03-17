@@ -1,0 +1,54 @@
+---
+title: "census"
+author: "Grace Bianchi"
+date: "2023-03-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+library(censusapi)
+api_key <- "ebab921b3002df9b71881ad6c426f34281ce0e11"
+# Add key to .Renviron
+Sys.setenv(CENSUS_KEY="ebab921b3002df9b71881ad6c426f34281ce0e11")
+# Reload .Renviron
+readRenviron("~/.Renviron")
+# Check to see that the expected key is output in your R console
+Sys.getenv("CENSUS_KEY")
+
+apis <- listCensusApis()
+colnames(apis)
+
+data_2021 <- apis %>% 
+  filter(vintage >= "2021") 
+
+listCensusMetadata(name = "acs/acs5", type = "geographies", )
+
+acs_variables <- listCensusMetadata(
+  name = "acs/acs5",
+  vintage = 2020,
+  type = "variables")
+
+demo_data <- acs_variables %>% 
+  str_detect()
+
+data <- getCensus(
+  name="acs/acs5",
+  vars = c("NAME", "B01001_001E", "B19013_001E"))
+  region = 
+  vintage
+)
+```
+
+```{r}
+reopt_key <- "GZtZAUcX97VchjrLAeeN3amg2pslaO3hbtCQgXBl"
+
+url <- "https://developer.nrel.gov/api/reopt"
+
+job_end <- "https://developer.nrel.gov/api/reopt/stable/job"
+
+```
+

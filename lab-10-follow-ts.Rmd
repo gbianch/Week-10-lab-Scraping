@@ -8,10 +8,10 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,message=FALSE,warning=FALSE)
 library(tidyverse)
-library(rvest)
+library(rvest) # allows you to access data from html
 library(tayloRswift)
 library(tidytext)
-library(ggwordcloud)
+library(ggwordcloud) 
 
 ```
 
@@ -70,7 +70,7 @@ alltoowell_lyric<-read_html("https://www.songlyrics.com/taylor-swift/all-too-wel
   html_nodes("#songLyricsDiv") %>% 
     html_text() %>% 
     str_replace_all("\n"," ") %>% 
-    str_remove_all(pattern = "[[:punct:]]") %>% 
+    str_remove_all(pattern = "[[:punct:]]") %>% # remove all !'.
     str_to_lower() %>% 
     str_split(" ") %>% 
     as.data.frame()
@@ -99,6 +99,7 @@ First step in purrr is to understand the data and design a function to do what w
 ```{r purrfcn}
 get_lyrics<-function(artist,album,year,song){
   
+  browser() # in console  get_lyrics("Taylor Swift", "1989", ")
   #Create url base
   base1<-c("https://songlyrics.com/")
   
@@ -164,7 +165,7 @@ any_errors_lyrics<-compact(song_lyrics$error)
 
 
 #Extract the data from the lists  
-lyrics<-compact(song_lyrics$result)  %>% 
+lyrics<-compact(song_lyrics$result)  %>%  # converts list from purr into df
   as_tibble_col(column_name = "word") %>% 
   unnest()
 ```
